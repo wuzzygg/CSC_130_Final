@@ -42,3 +42,9 @@ For Checkpoint #4, the requirements for this assignment are as follows:
 - Load ALL dialog into a Java HashMap using a StringTokenizer to parse the lines into Key-Value pairs.
 - Retrieve a single line of text from your HashMap using the "get" method from Java's HashMap class.
 - Display the retrieved dialog using the Gaming API "drawString" method at location 100x, 250y.
+
+### Checkpoint #5 Specifications
+For Checkpoint #5, the requirements for this assignment are as follows:
+
+- Program triggers for the following keys: w, a, s, d, and spacebar.
+- Each trigger should say "(keyname) has been triggered" (similar to the tutorial video on the KeyProcessor).
