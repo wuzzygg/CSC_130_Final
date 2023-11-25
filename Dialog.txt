@@ -1,0 +1,5 @@
+Dialog1*Blue_Crew_Mate: 'Hello this is Dialog1'
+Dialog2*Blue_Crew_Mate: 'Hello this is Dialog2'
+Dialog3*Blue_Crew_Mate: 'Hello this is Dialog3'
+Dialog4*Blue_Crew_Mate: 'Hello this is Dialog4'
+Dialog5*Blue_Crew_Mate: 'Hello this is Dialog5'
