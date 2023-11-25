@@ -22,8 +22,9 @@ public class Main{
 	/* This is your access to the "game loop" (It is a "callback" method from the Control class (do NOT modify that class!))*/
 	public static void update(Control ctrl) {
 		// TODO: This is where you can code! (Starting code below is just to show you how it works)
-		ctrl.addSpriteToFrontBuffer(0, 0, "f0");						 				// Add a tester sprite to render list by tag (Remove later! Test only!)
-		ctrl.drawString(20, 150, "This is a test graphics string!", Color.WHITE);		// Test drawing text on screen where you want (Remove later! Test only!)
+		int x = 1080, y = 500;
+		ctrl.addSpriteToFrontBuffer(x, y, "f0");						 				// Add a tester sprite to render list by tag (Remove later! Test only!)
+		ctrl.drawString(x + 20, y + 150, "Wei Chong", Color.RED);		// Test drawing text on screen where you want (Remove later! Test only!)
 	}
 	
 	// Additional Static methods below...(if needed)
