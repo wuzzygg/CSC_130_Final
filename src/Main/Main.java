@@ -20,6 +20,7 @@ public class Main{
 	public static ArrayList<spriteInfo> sprites = new ArrayList<>();
 	public static int currentSpriteIndex = 0;
 	public static HashMap<String, String> dialog_map = new HashMap<>();
+	public static String trigger = new String("");
 	// End Static fields...
 	
 	public static void main(String[] args) {
@@ -63,7 +64,7 @@ public class Main{
 	/* This is your access to the "game loop" (It is a "callback" method from the Control class (do NOT modify that class!))*/
 	public static void update(Control ctrl) {
 		// TODO: This is where you can code! (Starting code below is just to show you how it works)
-		ctrl.drawString(100, 250, "" + dialog_map.get("Dialog1"), Color.red);
+		ctrl.drawString(100, 250, "" + trigger, Color.red);
 		ctrl.addSpriteToFrontBuffer(current_sprite.getCoords().getX(), current_sprite.getCoords().getY(), current_sprite.getTag());
 		if (currentSpriteIndex != (sprites.size())) {
 			if (timer.isTimeUp()) {
