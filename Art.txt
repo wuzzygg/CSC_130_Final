@@ -1,2 +1,6 @@
 Art/f.png*f0
 Art/idle.png*idle
+Art/fwd1.png*fwd1
+Art/fwd2.png*fwd2
+Art/fwd3.png*fwd3
+Art/fwd4.png*fwd4
