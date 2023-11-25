@@ -31,3 +31,14 @@ For Checkpoint #3, the requirements for this assignment are as follows:
 - Create a cursor variable that holds the index of your current displayed frame (relative to your ArrayList) for easy frame updates.
 - Utilize a timer, the ArrayList, and your custom engine to make the images move from the left side of the screen to the right.
 - Implement animation reset functionality: Once the image reaches the end of the animation, reset by making the cursor index 0.
+
+### Checkpoint #4 Specifications
+For Checkpoint #4, the requirements for this assignment are as follows:
+
+- Name your animated character from Checkpoint #3.
+- Write five (5) lines of dialog for your character.
+- Save dialog into a text file using Key-Value pairs as described in this module.
+- Load the text file into the game engine in the start method.
+- Load ALL dialog into a Java HashMap using a StringTokenizer to parse the lines into Key-Value pairs.
+- Retrieve a single line of text from your HashMap using the "get" method from Java's HashMap class.
+- Display the retrieved dialog using the Gaming API "drawString" method at location 100x, 250y.
