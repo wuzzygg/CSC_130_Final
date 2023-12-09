@@ -9,16 +9,22 @@ import java.util.StringTokenizer;
 
 import Data.Vector2D;
 import Data.spriteInfo;
+import Data.collisionBox;
 import FileIO.EZFileRead;
 import logic.Control;
 import timer.stopWatchX;
 
 public class Main{
 	// Fields (Static) below...
-	public static stopWatchX timer = new stopWatchX(300);
-	public static spriteInfo current_sprite = new spriteInfo(new Vector2D(0, 0), "idle");
 	public static ArrayList<spriteInfo> sprites = new ArrayList<>();
-	public static int currentSpriteIndex = 0;
+	public static ArrayList<collisionBox> collisionBoxes = new ArrayList<>();
+	public static Boolean isDialogBoxOpen = false;
+	public static spriteInfo playerSprite = new spriteInfo(new Vector2D(100, 300), "Right_Idle", new Vector2D(128, 128));
+	public static spriteInfo backgroundSprite = new spriteInfo(new Vector2D(0, 0), "Background", new Vector2D(1280, 720));
+	public static spriteInfo dialogBoxSprite = new spriteInfo(new Vector2D(-1000, -100), "DialogBox", new Vector2D(1280, 720));
+	public static spriteInfo meat001Sprite = new spriteInfo(new Vector2D(455, 200), "Meat001", new Vector2D(64, 64));
+	public static spriteInfo meat002Sprite = new spriteInfo(new Vector2D(700, 340), "Meat002", new Vector2D(64, 64));
+	public static spriteInfo shoesSprite = new spriteInfo(new Vector2D(455, 340), "Shoes", new Vector2D(64, 64));
 	public static HashMap<String, String> dialog_map = new HashMap<>();
 	public static String trigger = new String("");
 	// End Static fields...
@@ -30,51 +36,89 @@ public class Main{
 	
 	/* This is your access to things BEFORE the game loop starts */
 	public static void start(){
-		// TODO: Code your starting conditions here...NOT DRAW CALLS HERE! (no addSprite or drawString)
+		sprites.add(backgroundSprite);
+		sprites.add(meat001Sprite);
+		sprites.add(meat002Sprite);
+		sprites.add(shoesSprite);
+		sprites.add(playerSprite);
+		// sprites.add(dialogBoxSprite);
 
-		// Load all dialog from dialog.txt to dialog_map
-		EZFileRead fileRead = new EZFileRead("Dialog.txt");
-		for (int i = 0; i < fileRead.getNumLines(); i++){
-			String raw = fileRead.getLine(i);
-			StringTokenizer str = new StringTokenizer(raw, "*");
-			dialog_map.put(str.nextToken(), str.nextToken());
-		}
+		// collision for edges of screen and bottom half of screen.
+		collisionBoxes.add(new collisionBox(-1, 0, -1, 719, false, false, ""));
+		collisionBoxes.add(new collisionBox(0, -1, 1279, -1, false, false, ""));
+		collisionBoxes.add(new collisionBox(1280, 0, 1280, 719, false, false, ""));
+		collisionBoxes.add(new collisionBox(0, 720, 1279, 720, false, false, ""));
+		collisionBoxes.add(new collisionBox(0, 435, 1279, 435, false, false, ""));
 
-		int counter = -1;
-		for (int i = 0; i <= 1280; i+=64) {
-			if ((i == 0) || (i == (1280-64))) {
-				sprites.add(new spriteInfo(new Vector2D(i, 250), "idle"));
-				counter = 1;
-			}else if (counter == 1) {
-				sprites.add(new spriteInfo(new Vector2D(i, 250), "fwd1"));
-				counter = 2;
-			}else if (counter == 2) {
-				sprites.add(new spriteInfo(new Vector2D(i, 250), "fwd2"));
-				counter = 3;
-			}else if (counter == 3) {
-				sprites.add(new spriteInfo(new Vector2D(i, 250), "fwd3"));
-				counter = 4;
-			}else if (counter == 4) {
-				sprites.add(new spriteInfo(new Vector2D(i, 250), "fwd4"));
-				counter = 1;
-			}
-		}
+		
+		collisionBoxes.add(new collisionBox(meat001Sprite, true, true, "This looks yummy!"));
+		collisionBoxes.add(new collisionBox(meat002Sprite, true, true, "This looks yummy too!"));
+		collisionBoxes.add(new collisionBox(shoesSprite, true, true, "These shoes belong to my human! He must be close by!"));
 	}
 	
 	/* This is your access to the "game loop" (It is a "callback" method from the Control class (do NOT modify that class!))*/
 	public static void update(Control ctrl) {
-		// TODO: This is where you can code! (Starting code below is just to show you how it works)
-		ctrl.drawString(100, 250, "" + trigger, Color.red);
-		ctrl.addSpriteToFrontBuffer(current_sprite.getCoords().getX(), current_sprite.getCoords().getY(), current_sprite.getTag());
-		if (currentSpriteIndex != (sprites.size())) {
-			if (timer.isTimeUp()) {
-				current_sprite = sprites.get(currentSpriteIndex);
-				currentSpriteIndex += 1;
-				timer.resetWatch();
+		for (spriteInfo sprite : sprites) {
+			ctrl.addSpriteToFrontBuffer(sprite.getCoords().getX(), sprite.getCoords().getY(), sprite.getTag());
+		}
+		ctrl.drawString(dialogBoxSprite.getCoords().getX(), dialogBoxSprite.getCoords().getY(), "" + trigger, Color.blue);
+	}
+
+	public static Boolean checkCollision(){
+		for (collisionBox box : collisionBoxes) {
+			if (playerSprite.getCoords().getX() + playerSprite.getSize().getX() >= box.getX1() && playerSprite.getCoords().getX() <= box.getX2() &&
+			playerSprite.getCoords().getY() + playerSprite.getSize().getY() >= box.getY1() && playerSprite.getCoords().getY() <= box.getY2()) {
+				if (box.getCanCollide()){
+					//  interactable
+					if (box.isInteractable()) {
+						// System.out.println("interactable");
+						trigger = box.getDialog();
+						// System.out.println(trigger);
+						return true;
+					}
+				} else {
+					// bounce player back
+					teleportPlayer();
+					return true;
+				}
 			}
-		}else {
-			currentSpriteIndex = 0;
+		}
+		return false;
+	}
+
+	public static void interact(Boolean isInteracting) {
+		if (isInteracting){
+			if (isDialogBoxOpen) {
+				isDialogBoxOpen = false;
+				dialogBoxSprite.setCoords(-1000, -1000);
+			} else {
+				isDialogBoxOpen = true;
+				dialogBoxSprite.setCoords(playerSprite.getCoords().getX(), playerSprite.getCoords().getY());
+			}
+		} else {
+			isDialogBoxOpen = false;
+			dialogBoxSprite.setCoords(-1000, -1000);
 		}
 	}
+
+	public static void teleportPlayer(){
+		switch (playerSprite.getPlayerDirection()) {
+			case "Up":
+				playerSprite.getCoords().adjustY(5);
+				break;
+			case "Down":
+				playerSprite.getCoords().adjustY(-5);
+				break;
+			case "Left":
+				playerSprite.getCoords().adjustX(5);
+				break;
+			case "Right":
+				playerSprite.getCoords().adjustX(-5);
+				break;
+			default:
+				break;
+		}
+	}
+
 	// Additional Static methods below...(if needed)
 }

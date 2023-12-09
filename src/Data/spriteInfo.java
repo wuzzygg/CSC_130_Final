@@ -5,14 +5,17 @@ package Data;
 public class spriteInfo {
 	// Fields
 		// TODO: Add private class fields to store x, y (use Vector2D for this) and tag (String) values given in class constructor
-	private Vector2D xy;
+	private Vector2D xy, size;
 	private String tag;
+	private String playerDirection = "Right";
+	// private int width, height;
 	
 	// Constructor
-	public spriteInfo(Vector2D v2d, String tag){
+	public spriteInfo(Vector2D v2d, String tag, Vector2D size){
 		// TODO: Save the constructor parameters into class fields
 		this.xy = v2d;
 		this.tag = tag;
+		this.size = size;
 	}
 	
 	// Methods
@@ -40,6 +43,21 @@ public class spriteInfo {
 		// TODO: Overload the setCoords method to allow another way to set the coordinates. Place the x, y integers into v2d by changing the values of v2d to hold x and y (Absolute assignment)
 		this.xy.setX(x);
 		this.xy.setY(y);
+	}
+	public Vector2D getSize() {
+		return this.size;
+	}
+	public void setWidth(int width) {
+		this.size.setX(width);
+	}
+	public void setHeight(int height) {
+		this.size.setY(height);
+	}
+	public void setPlayerDirection(String direction) {
+		this.playerDirection = direction;
+	}
+	public String getPlayerDirection() {
+		return this.playerDirection;
 	}
 	
 	public String toString(){
