@@ -48,3 +48,24 @@ For Checkpoint #5, the requirements for this assignment are as follows:
 
 - Program triggers for the following keys: w, a, s, d, and spacebar.
 - Each trigger should say "(keyname) has been triggered" (similar to the tutorial video on the KeyProcessor).
+
+## Final Project Specifications
+
+### Overview
+For the final project, the task is to complete a single screen game “level” utilizing Data Structures and Algorithms learned throughout this course. This project aims to apply the knowledge gained in a practical Java coding exercise, using the Gaming API provided during the course.
+
+### Setup Requirements
+- Set up a project in your chosen IDE with an organized package structure.
+- Install the Gaming API as instructed in Checkpoint #1.
+
+### Algorithms Requirements
+- **Single Screen Level**: The game should be confined to a single screen without scrolling.
+- **Character Movement**: Implement character movement in all four directions (up, down, left, right) with animations for each direction, as demonstrated in Checkpoint #3.
+- **Room and Boundaries**: The edges of the screen must have wall images, and the room should have a ground image, not just a solid color. These images require bounding box collision detection to prevent the player from walking through them.
+- **Interactable Items**: Include at least two items in the level that can be examined (by facing the item and pressing the space bar). Display a description upon examination.
+- **Error-Free**: The program must run without errors, crashes, or warnings.
+
+### Data Structures Requirements
+- **Java Collections**: Use at least one of the following Java Collections for image data: ArrayList, Stack, or Queue.
+- **Custom Bounding Box**: Create a custom data type for the bounding box collision object, including behavior.
+- **Bounding Box Collection**: Have a container (such as an ArrayList) holding a collection of bounding boxes.
